@@ -9,7 +9,7 @@ import springframework.msscbrewery.web.model.CustomerDto;
 
 import java.util.UUID;
 
-@RequestMapping("/api/v1/customer")
+@RequestMapping("/api/v1/customer/")
 @RestController
 public class CustomerController {
 
