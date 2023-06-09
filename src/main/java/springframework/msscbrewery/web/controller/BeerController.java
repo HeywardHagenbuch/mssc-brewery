@@ -45,4 +45,11 @@ public class BeerController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
+    @DeleteMapping({"/{beerId}"})
+    @ResponseStatus(HttpStatus.NO_CONTENT) // this annotation is used to tell spring to not return a body
+    // this is the same as return new ResponseEntity(HttpStatus.NO_CONTENT);
+    public void deleteBeer(@PathVariable("beerId") UUID beerId){
+        beerService.deleteById(beerId);
+    }
+
 }
