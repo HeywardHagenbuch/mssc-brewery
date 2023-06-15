@@ -23,7 +23,7 @@ public class MvcExceptionHandler {
     }
 
     @ExceptionHandler(BindException.class)
-    public ResponseEntity<List<String>> handleBindException(BindException be) {
-        new ResponseEntity<>(be.getAllErrors().toString(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<List> handleBindException(BindException be) {
+        return new ResponseEntity(be.getAllErrors().toString(), HttpStatus.BAD_REQUEST);
     }
 }
