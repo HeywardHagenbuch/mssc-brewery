@@ -25,29 +25,23 @@ public class BeerControllerV2 {
         return new ResponseEntity<>(beerServiceV2.getBeerById(beerId), HttpStatus.OK);
     }
 
-    @PostMapping // POST - create new beer
-    public ResponseEntity handlePost(@RequestBody BeerDtoV2 beerDto){
-
+    @PostMapping
+    public ResponseEntity<BeerDtoV2> handlePost(@RequestBody BeerDtoV2 beerDto){
         BeerDtoV2 savedDto = beerServiceV2.saveNewBeer(beerDto);
 
         HttpHeaders headers = new HttpHeaders();
-        //todo add hostname to url
         headers.add("Location", "/api/v1/beer/" + savedDto.getId().toString());
-
-        return new ResponseEntity(headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @PutMapping({"/{beerId}"})
-    public ResponseEntity handleUpdate(@PathVariable("beerId") UUID beerId, @RequestBody BeerDtoV2 beerDto){
-
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void handleUpdate(@PathVariable("beerId") UUID beerId, @RequestBody BeerDtoV2 beerDto) {
         beerServiceV2.updateBeer(beerId, beerDto);
-
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping({"/{beerId}"})
-    @ResponseStatus(HttpStatus.NO_CONTENT) // this annotation is used to tell spring to not return a body
-    // this is the same as return new ResponseEntity(HttpStatus.NO_CONTENT);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBeer(@PathVariable("beerId") UUID beerId){
         beerServiceV2.deleteById(beerId);
     }
