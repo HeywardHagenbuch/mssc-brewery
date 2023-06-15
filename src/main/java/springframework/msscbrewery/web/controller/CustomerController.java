@@ -1,6 +1,5 @@
 package springframework.msscbrewery.web.controller;
 
-import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -10,8 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import springframework.msscbrewery.services.CustomerService;
 import springframework.msscbrewery.web.model.CustomerDto;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Validated
@@ -49,14 +46,5 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCustomer(@PathVariable("customerId") UUID customerId) {
         customerService.deleteById(customerId);
-    }
-
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<List<String>> handleValidationException(ConstraintViolationException e) {
-        List<String> errors = new ArrayList<>(e.getConstraintViolations().size());
-        e.getConstraintViolations().forEach(constraintViolation ->
-                errors.add("%s : %s".formatted(constraintViolation.getPropertyPath(), constraintViolation.getMessage())));
-
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 }
